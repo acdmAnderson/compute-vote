@@ -12,12 +12,18 @@ public class Session {
     private final Long id;
     private final String description;
     private final Long duration;
-    private final LocalDateTime startDate;
+    private LocalDateTime startDate;
 
     public Session(Long id, String description, Long duration, LocalDateTime startDate) {
         this.id = id;
         this.description = description;
         this.duration = duration;
         this.startDate = startDate;
+    }
+
+    public Session(Long id, String description) {
+        this.id = id;
+        this.description = description;
+        this.duration = 60L;
     }
 }
