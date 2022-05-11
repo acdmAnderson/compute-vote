@@ -17,4 +17,10 @@ public class SessionTest {
         assertEquals(session.getDuration(), 3600L);
         assertEquals(session.getStartDate(), parse("2020-01-01T10:00:00"));
     }
+
+    @Test
+    void shouldCreateSessionWithDefaultDuration() {
+        final var session = new Session(1L, "ANY_SESSION");
+        assertEquals(session.getDuration(), 60L);
+    }
 }
