@@ -4,8 +4,10 @@ import lombok.Data;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Objects;
+
+import static java.lang.Boolean.FALSE;
+import static java.time.temporal.ChronoUnit.SECONDS;
+import static java.util.Objects.isNull;
 
 
 @Data
@@ -33,7 +35,7 @@ public class Session {
     }
 
     public Boolean isOpen(LocalDateTime currentDate) {
-        if (Objects.isNull(startDate)) return Boolean.FALSE;
-        return currentDate.isBefore(this.startDate.plus(duration, ChronoUnit.SECONDS));
+        if (isNull(startDate)) return FALSE;
+        return currentDate.isBefore(this.startDate.plus(duration, SECONDS));
     }
 }

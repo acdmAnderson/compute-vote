@@ -3,9 +3,9 @@ package com.challenge.vote;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.parse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class SessionTest {
@@ -16,6 +16,7 @@ public class SessionTest {
         assertEquals(session.getId(), 1L);
         assertEquals(session.getDescription(), "ANY_SESSION");
         assertEquals(session.getDuration(), 3600L);
+        assertFalse(session.isOpen(now()));
     }
 
     @Test
