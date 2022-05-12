@@ -1,7 +1,6 @@
 package com.challenge.vote.application.usecases.session;
 
 import com.challenge.vote.infra.repositories.memories.SessionRepositoryMemory;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +30,8 @@ public class GetSessionTest {
         createSession.execute(input);
         final var getSession = new GetSession(this.sessionRepository);
         final var output = getSession.execute(input.getSessionId());
-        Assertions.assertEquals(output.getSessionId(), 1L);
-        Assertions.assertEquals(output.getSessionDescription(), "ANY_SESSION");
-        Assertions.assertEquals(output.getSessionDuration(), 3600L);
+        assertEquals(output.getSessionId(), 1L);
+        assertEquals(output.getSessionDescription(), "ANY_SESSION");
+        assertEquals(output.getSessionDuration(), 3600L);
     }
 }

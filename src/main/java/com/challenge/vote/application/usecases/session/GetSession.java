@@ -4,7 +4,7 @@ import com.challenge.vote.domain.repositories.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
+import static java.util.Objects.isNull;
 
 @Component
 public class GetSession {
@@ -17,7 +17,7 @@ public class GetSession {
 
     public GetSessionOutput execute(Long sessionId) throws Exception {
         final var session = this.sessionRepository.findById(sessionId);
-        if (Objects.isNull(session)) throw new Exception("Session not found");
+        if (isNull(session)) throw new Exception("Session not found");
         return  GetSessionOutput.builder()
                 .sessionId(session.getId())
                 .sessionDescription(session.getDescription())
