@@ -5,8 +5,7 @@ import com.challenge.vote.domain.repositories.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
+import static java.util.Objects.isNull;
 
 @Component
 public class ComputeVote {
@@ -21,7 +20,7 @@ public class ComputeVote {
 
     public ComputeVoteOutput execute(Long idSession) throws Exception {
         final var session = this.sessionRepository.findById(idSession);
-        if (Objects.isNull(session)) throw new Exception("Session not found");
+        if (isNull(session)) throw new Exception("Session not found");
         final var votes = this.voteRepository.findByIdSession(idSession);
         return ComputeVoteOutput.builder()
                 .session(session.getDescription())

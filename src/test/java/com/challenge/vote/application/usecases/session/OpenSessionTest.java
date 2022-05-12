@@ -22,14 +22,14 @@ public class OpenSessionTest {
 
     @Test
     void shouldOpenSession() throws Exception {
+        final var createSession = new CreateSession(this.sessionRepository);
+        final var openSession = new OpenSession(this.sessionRepository);
         final var input = CreateSessionInput.builder()
                 .sessionId(1L)
                 .description("ANY_SESSION")
                 .duration(3600L)
                 .build();
-        final var createSession = new CreateSession(this.sessionRepository);
         createSession.execute(input);
-        final var openSession = new OpenSession(this.sessionRepository);
         openSession.execute(input.getSessionId());
         final var session = this.sessionRepository.findById(input.getSessionId());
         assertTrue(session.isOpen(now()));

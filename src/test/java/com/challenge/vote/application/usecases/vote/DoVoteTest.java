@@ -5,7 +5,6 @@ import com.challenge.vote.application.usecases.session.CreateSessionInput;
 import com.challenge.vote.application.usecases.session.OpenSession;
 import com.challenge.vote.infra.repositories.memories.SessionRepositoryMemory;
 import com.challenge.vote.infra.repositories.memories.VoteRepositoryMemory;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class DoVoteTest {
@@ -75,6 +75,6 @@ public class DoVoteTest {
                 .inFavor(TRUE)
                 .build();
         createSession.execute(sessionInput);
-        Assertions.assertThrows(Exception.class, () -> doVote.execute(firstInputVote));
+        assertThrows(Exception.class, () -> doVote.execute(firstInputVote));
     }
 }

@@ -13,6 +13,7 @@ public class ComputeVoteOutput {
     Long inFavorQuantity;
     Long notInFavorQuantity;
     Boolean inFavor;
+
     @JsonPOJOBuilder(withPrefix = "")
     public static class JacksonBuilder {
     }

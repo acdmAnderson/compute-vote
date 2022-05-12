@@ -5,7 +5,6 @@ import com.challenge.vote.application.usecases.session.CreateSessionInput;
 import com.challenge.vote.application.usecases.session.OpenSession;
 import com.challenge.vote.infra.repositories.memories.SessionRepositoryMemory;
 import com.challenge.vote.infra.repositories.memories.VoteRepositoryMemory;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class ComputeVoteTest {
@@ -64,9 +64,9 @@ public class ComputeVoteTest {
         doVote.execute(secondInputVote);
         doVote.execute(thirdVoteInput);
         final var output = computeVote.execute(sessionInput.getSessionId());
-        Assertions.assertEquals(output.getSession(), "ANY_SESSION");
-        Assertions.assertEquals(output.getInFavorQuantity(), 2L);
-        Assertions.assertEquals(output.getNotInFavorQuantity(), 1L);
-        Assertions.assertEquals(output.getInFavor(), Boolean.TRUE);
+        assertEquals(output.getSession(), "ANY_SESSION");
+        assertEquals(output.getInFavorQuantity(), 2L);
+        assertEquals(output.getNotInFavorQuantity(), 1L);
+        assertEquals(output.getInFavor(), TRUE);
     }
 }

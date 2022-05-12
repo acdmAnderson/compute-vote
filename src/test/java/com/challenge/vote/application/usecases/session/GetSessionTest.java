@@ -21,14 +21,14 @@ public class GetSessionTest {
 
     @Test
     void shouldGetSession() throws Exception {
+        final var createSession = new CreateSession(this.sessionRepository);
+        final var getSession = new GetSession(this.sessionRepository);
         final var input = CreateSessionInput.builder()
                 .sessionId(1L)
                 .description("ANY_SESSION")
                 .duration(3600L)
                 .build();
-        final var createSession = new CreateSession(this.sessionRepository);
         createSession.execute(input);
-        final var getSession = new GetSession(this.sessionRepository);
         final var output = getSession.execute(input.getSessionId());
         assertEquals(output.getSessionId(), 1L);
         assertEquals(output.getSessionDescription(), "ANY_SESSION");
