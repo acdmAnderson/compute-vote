@@ -20,7 +20,7 @@ public class GetSessionTest {
     }
 
     @Test
-    void shouldGetSession () throws Exception {
+    void shouldGetSession() throws Exception {
         final var input = CreateSessionInput.builder()
                 .sessionId(1L)
                 .description("ANY_SESSION")
