@@ -4,11 +4,14 @@ import com.challenge.vote.application.usecases.session.CreateSession;
 import com.challenge.vote.application.usecases.session.CreateSessionInput;
 import com.challenge.vote.infra.repositories.memories.SessionRepositoryMemory;
 import com.challenge.vote.infra.repositories.memories.VoteRepositoryMemory;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class DoVoteTest {
@@ -38,17 +41,17 @@ public class DoVoteTest {
                 .cpf("ANY_CPF")
                 .id(1L)
                 .idSession(1L)
-                .inFavor(Boolean.TRUE)
+                .inFavor(TRUE)
                 .build();
         doVote.execute(firstInputVote);
         final var secondInputVote = DoVoteInput.builder()
                 .cpf("ANOTHER_CPF")
                 .id(2L)
                 .idSession(1L)
-                .inFavor(Boolean.FALSE)
+                .inFavor(FALSE)
                 .build();
         doVote.execute(secondInputVote);
         final var votes = voteRepositoryMemory.findByIdSession(1L);
-        Assertions.assertEquals(votes.size(), 2L);
+        assertEquals(votes.size(), 2L);
     }
 }

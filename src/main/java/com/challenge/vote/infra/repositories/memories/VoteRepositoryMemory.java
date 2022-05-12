@@ -6,7 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Repository
 public class VoteRepositoryMemory implements VoteRepository {
@@ -15,6 +16,7 @@ public class VoteRepositoryMemory implements VoteRepository {
     public VoteRepositoryMemory() {
         this.votes = new ArrayList<>();
     }
+
     @Override
     public void save(Vote vote) {
         this.votes.add(vote);
@@ -32,7 +34,7 @@ public class VoteRepositoryMemory implements VoteRepository {
     public List<Vote> findByIdSession(Long idSession) {
         return this.votes.stream()
                 .filter(vote -> vote.getIdSession().equals(idSession))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @Override
