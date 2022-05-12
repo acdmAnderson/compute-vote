@@ -15,8 +15,13 @@ public class CreateSession {
         this.sessionRepository = sessionRepository;
     }
 
-    public void execute(CreateSessionInput input) {
+    public CreateSessionOutput execute(CreateSessionInput input) {
         final var session = new Session(input.getSessionId(), input.getDescription(), input.getDuration());
-        this.sessionRepository.save(session);
+        final var savedSession = this.sessionRepository.save(session);
+        return CreateSessionOutput.builder()
+                .sessionId(savedSession.getId())
+                .sessionDescription(savedSession.getDescription())
+                .sessionDuration(savedSession.getDuration())
+                .build();
     }
 }

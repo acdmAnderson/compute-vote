@@ -17,8 +17,9 @@ public class SessionRepositoryMemory implements SessionRepository {
     }
 
     @Override
-    public void save(Session session) {
+    public Session save(Session session) {
         this.sessions.add(session);
+        return session;
     }
 
     @Override

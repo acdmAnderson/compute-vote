@@ -6,6 +6,7 @@ import com.challenge.vote.domain.repositories.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Component
@@ -22,6 +23,7 @@ public class DoVote {
     public void execute(DoVoteInput input) throws Exception {
         final var session = this.sessionRepository.findById(input.getIdSession());
         if (Objects.isNull(session)) throw new Exception("Session not found");
+        if (!session.isOpen(LocalDateTime.now())) throw new Exception("Session is not Open");
         final var vote = this.voteRepository.findByIdSessionAndCpf(input.getIdSession(), input.getCpf());
         if (!Objects.isNull(vote)) throw new Exception("Vote already exists");
         this.voteRepository.save(new Vote(input.getId(), input.getIdSession(), input.getCpf(), input.getInFavor(), input.getCreatedAt()));
