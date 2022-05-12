@@ -2,6 +2,7 @@ package com.challenge.vote.application.usecases.vote;
 
 import com.challenge.vote.domain.repositories.SessionRepository;
 import com.challenge.vote.domain.repositories.VoteRepository;
+import com.challenge.vote.domain.services.VoteCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,12 +25,12 @@ public class ComputeVote {
         final var session = this.sessionRepository.findById(idSession);
         if (isNull(session)) throw new Exception("Session not found");
         final var votes = this.voteRepository.findByIdSession(idSession);
+        final var voteCalculator = new VoteCalculator(votes);
         return ComputeVoteOutput.builder()
                 .session(session.getDescription())
-                .inFavorQuantity(2L)
-                .notInFavorQuantity(1L)
-                .inFavor(TRUE)
-                .total(toUnsignedLong(votes.size()))
+                .inFavorQuantity(voteCalculator.getInFavor())
+                .notInFavorQuantity(voteCalculator.getNotInFavor())
+                .total(voteCalculator.getTotal())
                 .build();
     }
 }
