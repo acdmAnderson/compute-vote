@@ -67,6 +67,33 @@ public class ComputeVoteTest {
         assertEquals(output.getSession(), "ANY_SESSION");
         assertEquals(output.getInFavorQuantity(), 2L);
         assertEquals(output.getNotInFavorQuantity(), 1L);
-        assertEquals(output.getInFavor(), TRUE);
+        assertEquals(output.getTotal(), 3L);
+    }
+
+    @Test
+    void ShouldComputeOneVote() throws Exception {
+        final var createSession = new CreateSession(sessionRepository);
+        final var openSession = new OpenSession(sessionRepository);
+        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory);
+        final var computeVote = new ComputeVote(voteRepositoryMemory, sessionRepository);
+        final var sessionInput = CreateSessionInput.builder()
+                .sessionId(1L)
+                .description("ANY_SESSION")
+                .duration(3600L)
+                .build();
+        final var firstInputVote = DoVoteInput.builder()
+                .cpf("ANY_CPF")
+                .id(1L)
+                .idSession(sessionInput.getSessionId())
+                .inFavor(TRUE)
+                .build();
+        final var session = createSession.execute(sessionInput);
+        openSession.execute(session.getSessionId());
+        doVote.execute(firstInputVote);
+        final var output = computeVote.execute(sessionInput.getSessionId());
+        assertEquals(output.getSession(), "ANY_SESSION");
+        assertEquals(output.getInFavorQuantity(), 1L);
+        assertEquals(output.getNotInFavorQuantity(), 0L);
+        assertEquals(output.getTotal(), 1L);
     }
 }
