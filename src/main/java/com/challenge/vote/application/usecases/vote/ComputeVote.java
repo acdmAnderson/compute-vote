@@ -27,6 +27,7 @@ public class ComputeVote {
                 .inFavorQuantity(2L)
                 .notInFavorQuantity(1L)
                 .inFavor(Boolean.TRUE)
+                .total(Integer.toUnsignedLong(votes.size()))
                 .build();
     }
 }

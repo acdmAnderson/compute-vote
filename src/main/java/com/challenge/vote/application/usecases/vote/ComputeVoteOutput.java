@@ -12,6 +12,7 @@ public class ComputeVoteOutput {
     String session;
     Long inFavorQuantity;
     Long notInFavorQuantity;
+    Long total;
     Boolean inFavor;
 
     @JsonPOJOBuilder(withPrefix = "")
