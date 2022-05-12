@@ -5,6 +5,8 @@ import com.challenge.vote.domain.repositories.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static java.lang.Boolean.TRUE;
+import static java.lang.Integer.toUnsignedLong;
 import static java.util.Objects.isNull;
 
 @Component
@@ -26,8 +28,8 @@ public class ComputeVote {
                 .session(session.getDescription())
                 .inFavorQuantity(2L)
                 .notInFavorQuantity(1L)
-                .inFavor(Boolean.TRUE)
-                .total(Integer.toUnsignedLong(votes.size()))
+                .inFavor(TRUE)
+                .total(toUnsignedLong(votes.size()))
                 .build();
     }
 }
