@@ -1,5 +1,8 @@
-package com.challenge.vote;
+package com.challenge.vote.application.usecases.session;
 
+import com.challenge.vote.application.usecases.session.CreateSession;
+import com.challenge.vote.application.usecases.session.CreateSessionInput;
+import com.challenge.vote.infra.repositories.memories.SessionRepositoryMemory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

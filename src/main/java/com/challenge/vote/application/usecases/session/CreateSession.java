@@ -1,5 +1,7 @@
-package com.challenge.vote;
+package com.challenge.vote.application.usecases.session;
 
+import com.challenge.vote.domain.entities.Session;
+import com.challenge.vote.domain.repositories.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

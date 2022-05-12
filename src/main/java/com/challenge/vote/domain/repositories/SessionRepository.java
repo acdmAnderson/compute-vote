@@ -1,4 +1,6 @@
-package com.challenge.vote;
+package com.challenge.vote.domain.repositories;
+
+import com.challenge.vote.domain.entities.Session;
 
 import java.util.List;
 

@@ -1,5 +1,7 @@
-package com.challenge.vote;
+package com.challenge.vote.infra.repositories.memories;
 
+import com.challenge.vote.domain.entities.Session;
+import com.challenge.vote.domain.repositories.SessionRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.challenge.vote;
+package com.challenge.vote.application.usecases.session;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;

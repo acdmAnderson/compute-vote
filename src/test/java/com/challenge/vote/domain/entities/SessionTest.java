@@ -1,5 +1,6 @@
-package com.challenge.vote;
+package com.challenge.vote.domain.entities;
 
+import com.challenge.vote.domain.entities.Session;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

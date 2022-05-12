@@ -1,4 +1,4 @@
-package com.challenge.vote;
+package com.challenge.vote.domain.entities;
 
 import lombok.Data;
 import lombok.Getter;
