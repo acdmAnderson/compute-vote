@@ -30,4 +30,12 @@ public class SessionRepositoryMemory implements SessionRepository {
     public void clean() {
         this.sessions.clear();
     }
+
+    @Override
+    public Session findById(Long id) {
+        return this.sessions.stream()
+                .filter(session -> session.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
 }

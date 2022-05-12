@@ -1,17 +1,21 @@
-package com.challenge.vote.application.usecases.session;
+package com.challenge.vote.application.usecases.vote;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
 
+import java.time.LocalDateTime;
+
 @Value
-@JsonDeserialize(builder = CreateSessionInput.JacksonBuilder.class)
+@JsonDeserialize(builder = DoVoteInput.JacksonBuilder.class)
 @Builder(builderClassName = "JacksonBuilder")
-public class CreateSessionInput {
-    Long sessionId;
-    String description;
-    Long duration;
+public class DoVoteInput {
+    Long id;
+    Long idSession;
+    String cpf;
+    LocalDateTime createdAt = LocalDateTime.now();
+    Boolean inFavor;
 
     @JsonPOJOBuilder(withPrefix = "")
     public static class JacksonBuilder {

@@ -8,4 +8,5 @@ public interface SessionRepository {
     void save(Session session);
     List<Session> findAll();
     void clean();
+    Session findById(Long id);
 }

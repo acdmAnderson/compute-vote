@@ -11,12 +11,12 @@ public class CreateSession {
     private final SessionRepository sessionRepository;
 
     @Autowired
-    CreateSession(SessionRepository sessionRepository) {
+    public CreateSession(SessionRepository sessionRepository) {
         this.sessionRepository = sessionRepository;
     }
 
-    void execute(CreateSessionInput input) {
-        final var session = new Session(null, input.getDescription(), input.getDuration());
+    public void execute(CreateSessionInput input) {
+        final var session = new Session(input.getSessionId(), input.getDescription(), input.getDuration());
         this.sessionRepository.save(session);
     }
 }
