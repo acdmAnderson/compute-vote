@@ -4,8 +4,8 @@ import com.challenge.vote.domain.repositories.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
+import static java.time.LocalDateTime.now;
+import static java.util.Objects.isNull;
 
 @Component
 public class OpenSession {
@@ -19,8 +19,8 @@ public class OpenSession {
 
     public void execute(Long sessionId) throws Exception {
         final var session = this.sessionRepository.findById(sessionId);
-        if (Objects.isNull(session)) throw new Exception("Session not found");
-        session.open(LocalDateTime.now());
+        if (isNull(session)) throw new Exception("Session not found");
+        session.open(now());
         this.sessionRepository.save(session);
     }
 }

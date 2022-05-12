@@ -1,15 +1,13 @@
 package com.challenge.vote.application.usecases.session;
 
 import com.challenge.vote.infra.repositories.memories.SessionRepositoryMemory;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static java.time.LocalDateTime.now;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 public class OpenSessionTest {
@@ -34,6 +32,6 @@ public class OpenSessionTest {
         final var openSession = new OpenSession(this.sessionRepository);
         openSession.execute(input.getSessionId());
         final var session = this.sessionRepository.findById(input.getSessionId());
-        Assertions.assertTrue(session.isOpen(LocalDateTime.now()));
+        assertTrue(session.isOpen(now()));
     }
 }
