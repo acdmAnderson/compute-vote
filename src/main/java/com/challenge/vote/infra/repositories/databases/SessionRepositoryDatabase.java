@@ -2,7 +2,7 @@ package com.challenge.vote.infra.repositories.databases;
 
 import com.challenge.vote.domain.entities.Session;
 import com.challenge.vote.domain.repositories.SessionRepository;
-import com.challenge.vote.infra.repositories.adapters.SessionJPAAdapterRepository;
+import com.challenge.vote.infra.repositories.adapters.SessionJpaAdapterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
@@ -13,10 +13,10 @@ import java.util.List;
 @Repository
 public class SessionRepositoryDatabase implements SessionRepository {
 
-    private final SessionJPAAdapterRepository repository;
+    private final SessionJpaAdapterRepository repository;
 
     @Autowired
-    public SessionRepositoryDatabase(SessionJPAAdapterRepository repository) {
+    public SessionRepositoryDatabase(SessionJpaAdapterRepository repository) {
         this.repository = repository;
     }
 

@@ -14,7 +14,7 @@ public class VoteTest {
     @Test
     void shouldCreateVote() {
         final var vote = new Vote(1L, 1L, "ANY_CPF", TRUE, parse("2020-01-01T10:00:00"));
-        assertEquals(vote.getIdSession(), 1L);
+        assertEquals(vote.getSessionId(), 1L);
         assertEquals(vote.getId(), 1L);
         assertEquals(vote.getCpf(), "ANY_CPF");
         assertEquals(vote.getCreatedAt(), parse("2020-01-01T10:00:00"));

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder(builderClassName = "JacksonBuilder")
 public class DoVoteInput {
     Long id;
-    Long idSession;
+    Long sessionId;
     String cpf;
     LocalDateTime createdAt = LocalDateTime.now();
     Boolean inFavor;

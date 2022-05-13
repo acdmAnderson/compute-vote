@@ -5,8 +5,8 @@ import com.challenge.vote.domain.entities.Vote;
 import java.util.List;
 
 public interface VoteRepository {
-    void save(Vote vote);
-    Vote findByIdSessionAndCpf(Long idSession, String cpf);
-    List<Vote> findByIdSession(Long idSession);
+    Vote save(Vote vote);
+    Vote findBySessionIdAndCpf(Long sessionId, String cpf);
+    List<Vote> findBySessionId(Long sessionId);
     void clean();
 }

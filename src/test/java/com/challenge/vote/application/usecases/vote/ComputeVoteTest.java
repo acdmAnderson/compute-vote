@@ -43,19 +43,19 @@ public class ComputeVoteTest {
         final var firstInputVote = DoVoteInput.builder()
                 .cpf("ANY_CPF")
                 .id(1L)
-                .idSession(sessionInput.getSessionId())
+                .sessionId(sessionInput.getSessionId())
                 .inFavor(TRUE)
                 .build();
         final var secondInputVote = DoVoteInput.builder()
                 .cpf("ANOTHER_CPF")
                 .id(2L)
-                .idSession(sessionInput.getSessionId())
+                .sessionId(sessionInput.getSessionId())
                 .inFavor(FALSE)
                 .build();
         final var thirdVoteInput = DoVoteInput.builder()
                 .cpf("SOME_CPF")
                 .id(3L)
-                .idSession(sessionInput.getSessionId())
+                .sessionId(sessionInput.getSessionId())
                 .inFavor(TRUE)
                 .build();
         final var session = createSession.execute(sessionInput);
@@ -84,7 +84,7 @@ public class ComputeVoteTest {
         final var firstInputVote = DoVoteInput.builder()
                 .cpf("ANY_CPF")
                 .id(1L)
-                .idSession(sessionInput.getSessionId())
+                .sessionId(sessionInput.getSessionId())
                 .inFavor(TRUE)
                 .build();
         final var session = createSession.execute(sessionInput);

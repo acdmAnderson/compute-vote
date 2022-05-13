@@ -19,10 +19,10 @@ public class ComputeVote {
         this.sessionRepository = sessionRepository;
     }
 
-    public ComputeVoteOutput execute(Long idSession) throws Exception {
-        final var session = this.sessionRepository.findBySessionId(idSession);
+    public ComputeVoteOutput execute(Long sessionId) throws Exception {
+        final var session = this.sessionRepository.findBySessionId(sessionId);
         if (isNull(session)) throw new Exception("Session not found");
-        final var votes = this.voteRepository.findByIdSession(idSession);
+        final var votes = this.voteRepository.findBySessionId(sessionId);
         final var voteCalculator = new VoteCalculator(votes);
         return ComputeVoteOutput.builder()
                 .session(session.getDescription())

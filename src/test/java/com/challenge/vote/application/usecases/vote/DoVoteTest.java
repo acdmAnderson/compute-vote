@@ -42,20 +42,20 @@ public class DoVoteTest {
         final var firstInputVote = DoVoteInput.builder()
                 .cpf("ANY_CPF")
                 .id(1L)
-                .idSession(1L)
+                .sessionId(1L)
                 .inFavor(TRUE)
                 .build();
         final var secondInputVote = DoVoteInput.builder()
                 .cpf("ANOTHER_CPF")
                 .id(2L)
-                .idSession(1L)
+                .sessionId(1L)
                 .inFavor(FALSE)
                 .build();
         final var session = createSession.execute(sessionInput);
         openSession.execute(session.getSessionId());
         doVote.execute(firstInputVote);
         doVote.execute(secondInputVote);
-        final var votes = voteRepositoryMemory.findByIdSession(1L);
+        final var votes = voteRepositoryMemory.findBySessionId(1L);
         assertEquals(votes.size(), 2L);
     }
 
@@ -71,7 +71,7 @@ public class DoVoteTest {
         final var firstInputVote = DoVoteInput.builder()
                 .cpf("ANY_CPF")
                 .id(1L)
-                .idSession(1L)
+                .sessionId(1L)
                 .inFavor(TRUE)
                 .build();
         createSession.execute(sessionInput);

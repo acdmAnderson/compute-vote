@@ -18,22 +18,23 @@ public class VoteRepositoryMemory implements VoteRepository {
     }
 
     @Override
-    public void save(Vote vote) {
+    public Vote save(Vote vote) {
         this.votes.add(vote);
+        return vote;
     }
 
     @Override
-    public Vote findByIdSessionAndCpf(Long idSession, String cpf) {
+    public Vote findBySessionIdAndCpf(Long sessionId, String cpf) {
         return this.votes.stream()
-                .filter(vote -> vote.getIdSession().equals(idSession) && vote.getCpf().equals(cpf))
+                .filter(vote -> vote.getSessionId().equals(sessionId) && vote.getCpf().equals(cpf))
                 .findFirst()
                 .orElse(null);
     }
 
     @Override
-    public List<Vote> findByIdSession(Long idSession) {
+    public List<Vote> findBySessionId(Long sessionId) {
         return this.votes.stream()
-                .filter(vote -> vote.getIdSession().equals(idSession))
+                .filter(vote -> vote.getSessionId().equals(sessionId))
                 .collect(toList());
     }
 
