@@ -8,8 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static java.lang.Boolean.TRUE;
 import static java.time.LocalDateTime.parse;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class VoteRepositoryDatabaseTest {
@@ -57,7 +56,13 @@ public class VoteRepositoryDatabaseTest {
 
     @Test
     void shouldNotGetVote_whenSessionIdNotExists() {
-        final var votes = this.voteRepositoryDatabase.findBySessionId(2L);
+        final var votes = this.voteRepositoryDatabase.findBySessionId(-1L);
         assertTrue(votes.isEmpty());
+    }
+
+    @Test
+    void shouldNotGetVote_whenSessionIdAndCpfNotExists() {
+        final var foundVote = this.voteRepositoryDatabase.findBySessionIdAndCpf(-1L, "WRONG_CPF");
+        assertNull(foundVote);
     }
 }
