@@ -42,4 +42,15 @@ public class VoteRepositoryDatabaseTest {
         assertEquals(votes.get(0).getInFavor(), TRUE);
         assertEquals(votes.get(0).getCreatedAt(), parse("2021-10-10T10:00:00"));
     }
+
+    @Test
+    void shouldGetVoteBySessionIdAndCpf() {
+        final var vote = new Vote(null, 1L, "ANY_CPF", TRUE, parse("2021-10-10T10:00:00"));
+        this.voteRepositoryDatabase.save(vote);
+        final var foundVote = this.voteRepositoryDatabase.findBySessionIdAndCpf(1L, "ANY_CPF");
+        assertEquals(foundVote.getSessionId(), 1L);
+        assertEquals(foundVote.getCpf(), "ANY_CPF");
+        assertEquals(foundVote.getInFavor(), TRUE);
+        assertEquals(foundVote.getCreatedAt(), parse("2021-10-10T10:00:00"));
+    }
 }
