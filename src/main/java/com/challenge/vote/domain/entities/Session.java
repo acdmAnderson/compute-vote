@@ -1,7 +1,9 @@
 package com.challenge.vote.domain.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,16 +20,19 @@ public class Session {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private final Long id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
-    private final String description;
+    private String description;
 
     @Column(nullable = false)
-    private final Long duration;
+    private Long duration;
 
     @Column(name = "start_data")
     private LocalDateTime startDate;
+
+    public Session() {
+    }
 
     public Session(Long id, String description, Long duration) {
         this.id = id;
