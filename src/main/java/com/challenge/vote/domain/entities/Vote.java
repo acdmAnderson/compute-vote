@@ -18,7 +18,7 @@ public class Vote {
     @Column(name = "session_id", nullable = false)
     private Long sessionId;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String cpf;
 
     @Column(nullable = false)

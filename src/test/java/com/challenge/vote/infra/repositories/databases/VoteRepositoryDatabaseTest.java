@@ -1,6 +1,7 @@
 package com.challenge.vote.infra.repositories.databases;
 
 import com.challenge.vote.domain.entities.Vote;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,6 +16,11 @@ public class VoteRepositoryDatabaseTest {
     @Autowired
     private VoteRepositoryDatabase voteRepositoryDatabase;
 
+    @BeforeEach
+    void setup() {
+        this.voteRepositoryDatabase.clean();
+    }
+
     @Test
     void shouldCreateVote() {
         final var vote = new Vote(null, 1L, "ANY_CPF", TRUE, parse("2021-10-10T10:00:00"));
@@ -23,5 +29,17 @@ public class VoteRepositoryDatabaseTest {
         assertEquals(savedVote.getCpf(), "ANY_CPF");
         assertEquals(savedVote.getInFavor(), TRUE);
         assertEquals(savedVote.getCreatedAt(), parse("2021-10-10T10:00:00"));
+    }
+
+    @Test
+    void shouldGetVoteBySessionId() {
+        final var vote = new Vote(null, 1L, "ANY_CPF", TRUE, parse("2021-10-10T10:00:00"));
+        this.voteRepositoryDatabase.save(vote);
+        final var votes = this.voteRepositoryDatabase.findBySessionId(1L);
+        assertEquals(votes.size(), 1L);
+        assertEquals(votes.get(0).getSessionId(), 1L);
+        assertEquals(votes.get(0).getCpf(), "ANY_CPF");
+        assertEquals(votes.get(0).getInFavor(), TRUE);
+        assertEquals(votes.get(0).getCreatedAt(), parse("2021-10-10T10:00:00"));
     }
 }
