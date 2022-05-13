@@ -8,5 +8,5 @@ public interface SessionRepository {
     Session save(Session session);
     List<Session> findAll();
     void clean();
-    Session findById(Long id);
+    Session findBySessionId(Long id);
 }

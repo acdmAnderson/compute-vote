@@ -18,7 +18,7 @@ public class OpenSession {
     }
 
     public void execute(Long sessionId) throws Exception {
-        final var session = this.sessionRepository.findById(sessionId);
+        final var session = this.sessionRepository.findBySessionId(sessionId);
         if (isNull(session)) throw new Exception("Session not found");
         session.open(now());
         this.sessionRepository.save(session);

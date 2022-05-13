@@ -31,7 +31,7 @@ public class OpenSessionTest {
                 .build();
         createSession.execute(input);
         openSession.execute(input.getSessionId());
-        final var session = this.sessionRepository.findById(input.getSessionId());
+        final var session = this.sessionRepository.findBySessionId(input.getSessionId());
         assertTrue(session.isOpen(now()));
     }
 }

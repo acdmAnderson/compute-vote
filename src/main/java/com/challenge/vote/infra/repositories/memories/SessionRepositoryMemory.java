@@ -33,7 +33,7 @@ public class SessionRepositoryMemory implements SessionRepository {
     }
 
     @Override
-    public Session findById(Long id) {
+    public Session findBySessionId(Long id) {
         return this.sessions.stream()
                 .filter(session -> session.getId().equals(id))
                 .findFirst()

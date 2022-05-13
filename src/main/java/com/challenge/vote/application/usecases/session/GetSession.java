@@ -16,7 +16,7 @@ public class GetSession {
     }
 
     public GetSessionOutput execute(Long sessionId) throws Exception {
-        final var session = this.sessionRepository.findById(sessionId);
+        final var session = this.sessionRepository.findBySessionId(sessionId);
         if (isNull(session)) throw new Exception("Session not found");
         return  GetSessionOutput.builder()
                 .sessionId(session.getId())

@@ -21,7 +21,7 @@ public class DoVote {
     }
 
     public void execute(DoVoteInput input) throws Exception {
-        final var session = this.sessionRepository.findById(input.getIdSession());
+        final var session = this.sessionRepository.findBySessionId(input.getIdSession());
         if (Objects.isNull(session)) throw new Exception("Session not found");
         if (!session.isOpen(LocalDateTime.now())) throw new Exception("Session is not Open");
         final var vote = this.voteRepository.findByIdSessionAndCpf(input.getIdSession(), input.getCpf());
