@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static java.time.LocalDateTime.now;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -34,4 +35,19 @@ public class OpenSessionTest {
         final var session = this.sessionRepository.findBySessionId(input.getSessionId());
         assertTrue(session.isOpen(now()));
     }
+
+    @Test
+    void shouldNotOpenSession_whenItAlreadyIsOpen() throws Exception {
+        final var createSession = new CreateSession(this.sessionRepository);
+        final var openSession = new OpenSession(this.sessionRepository);
+        final var input = CreateSessionInput.builder()
+                .sessionId(1L)
+                .description("ANY_SESSION")
+                .duration(3600L)
+                .build();
+        createSession.execute(input);
+        openSession.execute(input.getSessionId());
+        assertThrows(Exception.class, () -> openSession.execute(input.getSessionId()));
+    }
+
 }
