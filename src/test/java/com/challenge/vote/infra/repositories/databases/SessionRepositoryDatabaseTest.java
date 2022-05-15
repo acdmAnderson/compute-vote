@@ -1,7 +1,6 @@
 package com.challenge.vote.infra.repositories.databases;
 
 import com.challenge.vote.domain.entities.Session;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
