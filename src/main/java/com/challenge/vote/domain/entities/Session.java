@@ -24,7 +24,7 @@ public class Session {
     private String description;
 
     @Column(nullable = false)
-    private Long duration;
+    private Long duration = 60L;
 
     @Column(name = "start_data")
     private LocalDateTime startDate;
@@ -35,13 +35,14 @@ public class Session {
     public Session(Long id, String description, Long duration) {
         this.id = id;
         this.description = description;
-        this.duration = duration;
+        if (!isNull(duration)) {
+            this.duration = duration;
+        }
     }
 
     public Session(Long id, String description) {
         this.id = id;
         this.description = description;
-        this.duration = 60L;
     }
 
     public void open(LocalDateTime startDate) {
