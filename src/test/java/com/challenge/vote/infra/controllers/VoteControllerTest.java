@@ -17,6 +17,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static com.challenge.vote.util.VoteControllerTestConstants.*;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -69,10 +73,10 @@ public class VoteControllerTest {
         this.openSession.execute(createdSession.getSessionId());
         final var input = DoVoteInput.builder()
                 .sessionId(createdSession.getSessionId())
-                .inFavor(Boolean.TRUE)
+                .inFavor(TRUE)
                 .cpf("ANY_CPF")
                 .build();
-        mvc.perform(post("/v1/vote")
+        mvc.perform(post(VOTE_URL)
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .characterEncoding(UTF_8)
@@ -91,31 +95,31 @@ public class VoteControllerTest {
         this.openSession.execute(createdSession.getSessionId());
         final var firstVote = DoVoteInput.builder()
                 .sessionId(createdSession.getSessionId())
-                .inFavor(Boolean.TRUE)
+                .inFavor(TRUE)
                 .cpf("ANY_CPF")
                 .build();
         final var secondVote = DoVoteInput.builder()
                 .sessionId(createdSession.getSessionId())
-                .inFavor(Boolean.TRUE)
+                .inFavor(TRUE)
                 .cpf("SOME_CPF")
                 .build();
         final var thirtyVote = DoVoteInput.builder()
                 .sessionId(createdSession.getSessionId())
-                .inFavor(Boolean.FALSE)
+                .inFavor(FALSE)
                 .cpf("ANOTHER_CPF")
                 .build();
         this.doVote.execute(firstVote);
         this.doVote.execute(secondVote);
         this.doVote.execute(thirtyVote);
-        mvc.perform(get("/v1/vote/compute" + "/" + createdSession.getSessionId())
+        mvc.perform(get(format("%s/compute/%d", VOTE_URL, createdSession.getSessionId()))
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .characterEncoding(UTF_8))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.session").value(createdSession.getSessionDescription()))
-                .andExpect(jsonPath("$.inFavorQuantity").value(2L))
-                .andExpect(jsonPath("$.notInFavorQuantity").value(1L))
-                .andExpect(jsonPath("$.total").value(3L));
+                .andExpect(jsonPath(JSON_PATH_SESSION).value(createdSession.getSessionDescription()))
+                .andExpect(jsonPath(JSON_PATH_IN_FAVOR_QUANTITY).value(2L))
+                .andExpect(jsonPath(JSON_PATH_NOT_IN_FAVOR_QUANTITY).value(1L))
+                .andExpect(jsonPath(JSON_PATH_TOTAL).value(3L));
     }
 }
