@@ -5,7 +5,6 @@ import com.challenge.vote.application.usecases.session.CreateSession;
 import com.challenge.vote.application.usecases.session.CreateSessionInput;
 import com.challenge.vote.infra.repositories.databases.SessionRepositoryDatabase;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +14,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDateTime;
-
 import static com.challenge.vote.util.SessionControllerTestConstants.*;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.time.LocalDateTime.now;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -100,6 +99,6 @@ public class SessionControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
         final var session = this.sessionRepositoryDatabase.findBySessionId(createdSession.getSessionId());
-        Assertions.assertTrue(session.isOpen(LocalDateTime.now()));
+        assertTrue(session.isOpen(now()));
     }
 }
