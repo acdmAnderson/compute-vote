@@ -17,6 +17,9 @@ public class SessionController {
     @Autowired
     private GetSession getSession;
 
+    @Autowired
+    private OpenSession openSession;
+
     @PostMapping
     @ResponseStatus(CREATED)
     public CreateSessionOutput create(@RequestBody final CreateSessionInput input) {
@@ -27,5 +30,11 @@ public class SessionController {
     @ResponseStatus(OK)
     public GetSessionOutput getSessionById(@PathVariable("sessionId") Long sessionId) throws Exception {
         return this.getSession.execute(sessionId);
+    }
+
+    @PostMapping("/open/{sessionId}")
+    @ResponseStatus(OK)
+    public void create(@PathVariable("sessionId") Long sessionId) throws Exception {
+        this.openSession.execute(sessionId);
     }
 }
