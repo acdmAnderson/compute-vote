@@ -34,7 +34,7 @@ public class SessionController {
 
     @PostMapping("/open/{sessionId}")
     @ResponseStatus(OK)
-    public void create(@PathVariable("sessionId") Long sessionId) throws Exception {
+    public void open(@PathVariable("sessionId") Long sessionId) throws Exception {
         this.openSession.execute(sessionId);
     }
 }
