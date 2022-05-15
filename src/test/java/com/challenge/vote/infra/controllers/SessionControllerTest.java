@@ -14,6 +14,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static com.challenge.vote.util.SessionControllerTestConstants.*;
+import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -51,16 +53,16 @@ public class SessionControllerTest {
         final var input = CreateSessionInput.builder()
                 .description("ANY_SESSION")
                 .build();
-        mvc.perform(post("/v1/session")
+        mvc.perform(post(SESSION_URL)
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .characterEncoding(UTF_8)
                 .content(mapper.writeValueAsString(input)))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.sessionId").value(1L))
-                .andExpect(jsonPath("$.sessionDescription").value("ANY_SESSION"))
-                .andExpect(jsonPath("$.sessionDuration").value(60L));
+                .andExpect(jsonPath(JSON_PATH_SESSION_ID).value(1L))
+                .andExpect(jsonPath(JSON_PATH_SESSION_DESCRIPTION).value("ANY_SESSION"))
+                .andExpect(jsonPath(JSON_PATH_SESSION_DURATION).value(60L));
     }
 
     @Test
@@ -70,14 +72,14 @@ public class SessionControllerTest {
                 .duration(3600L)
                 .build();
         final var createdSession = this.createSession.execute(input);
-        mvc.perform(get("/v1/session" + "/" + createdSession.getSessionId())
+        mvc.perform(get(format("%s/%d", SESSION_URL, createdSession.getSessionId()))
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .characterEncoding(UTF_8))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.sessionId").value(createdSession.getSessionId()))
-                .andExpect(jsonPath("$.sessionDescription").value("ANY_SESSION"))
-                .andExpect(jsonPath("$.sessionDuration").value(3600L));
+                .andExpect(jsonPath(JSON_PATH_SESSION_ID).value(createdSession.getSessionId()))
+                .andExpect(jsonPath(JSON_PATH_SESSION_DESCRIPTION).value("ANY_SESSION"))
+                .andExpect(jsonPath(JSON_PATH_SESSION_DURATION).value(3600L));
     }
 }
