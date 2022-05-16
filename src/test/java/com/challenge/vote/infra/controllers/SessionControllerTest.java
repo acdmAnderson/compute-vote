@@ -1,6 +1,7 @@
 package com.challenge.vote.infra.controllers;
 
 
+import com.challenge.vote.application.errors.notfound.NotFoundException;
 import com.challenge.vote.application.usecases.session.CreateSession;
 import com.challenge.vote.application.usecases.session.CreateSessionInput;
 import com.challenge.vote.infra.repositories.databases.SessionRepositoryDatabase;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -83,6 +85,20 @@ public class SessionControllerTest {
                 .andExpect(jsonPath(JSON_PATH_SESSION_ID).value(createdSession.getSessionId()))
                 .andExpect(jsonPath(JSON_PATH_SESSION_DESCRIPTION).value("ANY_SESSION"))
                 .andExpect(jsonPath(JSON_PATH_SESSION_DURATION).value(3600L));
+    }
+
+    @Test
+    void shouldReturn404_whenSessionIdNotExists() throws Exception {
+        mvc.perform(get(format("%s/%d", SESSION_URL, -1))
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding(UTF_8))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.timestamp").exists())
+                .andExpect(jsonPath("$.path").value(format("%s/%d", SESSION_URL, -1)))
+                .andExpect(jsonPath("$.message").value("Session not found."))
+                .andExpect(jsonPath("$.code").value(HttpStatus.NOT_FOUND.value()));
     }
 
     @Test
