@@ -3,6 +3,7 @@ package com.challenge.vote.infra.controllers;
 
 import com.challenge.vote.application.usecases.session.CreateSession;
 import com.challenge.vote.application.usecases.session.CreateSessionInput;
+import com.challenge.vote.application.usecases.session.OpenSession;
 import com.challenge.vote.infra.repositories.databases.SessionRepositoryDatabase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +21,7 @@ import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -43,6 +45,9 @@ public class SessionControllerTest {
 
     @Autowired
     private CreateSession createSession;
+
+    @Autowired
+    private OpenSession openSession;
 
     private MockMvc mvc;
 
@@ -116,5 +121,25 @@ public class SessionControllerTest {
                 .andExpect(status().isOk());
         final var session = this.sessionRepositoryDatabase.findBySessionId(createdSession.getSessionId());
         assertTrue(session.isOpen(now()));
+    }
+
+    @Test
+    void shouldReturn400_whenSessionIsAlreadyOpen() throws Exception {
+        final var input = CreateSessionInput.builder()
+                .description("ANY_SESSION")
+                .duration(3600L)
+                .build();
+        final var createdSession = this.createSession.execute(input);
+        this.openSession.execute(createdSession.getSessionId());
+        mvc.perform(post(format("%s/open/%d", SESSION_URL, createdSession.getSessionId()))
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding(UTF_8))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath(JSON_PATH_TIMESTAMP).exists())
+                .andExpect(jsonPath(JSON_PATH_PATH).value(format("%s/open/%d", SESSION_URL, createdSession.getSessionId())))
+                .andExpect(jsonPath(JSON_PATH_MESSAGE).value("Session is already open."))
+                .andExpect(jsonPath(JSON_PATH_CODE).value(BAD_REQUEST.value()));
     }
 }
