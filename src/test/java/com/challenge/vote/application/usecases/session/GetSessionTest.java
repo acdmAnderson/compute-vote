@@ -1,17 +1,16 @@
 package com.challenge.vote.application.usecases.session;
 
+import com.challenge.vote.VoteApplicationTests;
 import com.challenge.vote.application.errors.notfound.NotFoundException;
 import com.challenge.vote.infra.repositories.memories.SessionRepositoryMemory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-public class GetSessionTest {
+public class GetSessionTest implements VoteApplicationTests {
 
     @Autowired
     private SessionRepositoryMemory sessionRepository;

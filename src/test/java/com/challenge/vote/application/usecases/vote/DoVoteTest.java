@@ -1,5 +1,6 @@
 package com.challenge.vote.application.usecases.vote;
 
+import com.challenge.vote.VoteApplicationTests;
 import com.challenge.vote.application.errors.badrequest.BadRequestException;
 import com.challenge.vote.application.usecases.session.CreateSession;
 import com.challenge.vote.application.usecases.session.CreateSessionInput;
@@ -9,15 +10,13 @@ import com.challenge.vote.infra.repositories.memories.VoteRepositoryMemory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-public class DoVoteTest {
+public class DoVoteTest implements VoteApplicationTests {
 
     @Autowired
     private SessionRepositoryMemory sessionRepository;

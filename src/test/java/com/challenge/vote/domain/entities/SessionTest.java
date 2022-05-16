@@ -1,14 +1,13 @@
 package com.challenge.vote.domain.entities;
 
+import com.challenge.vote.VoteApplicationTests;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static java.time.LocalDateTime.now;
 import static java.time.LocalDateTime.parse;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-public class SessionTest {
+public class SessionTest implements VoteApplicationTests {
 
     @Test
     void shouldCreateSession() {

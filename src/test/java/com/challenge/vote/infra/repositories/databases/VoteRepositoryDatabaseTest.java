@@ -1,17 +1,16 @@
 package com.challenge.vote.infra.repositories.databases;
 
+import com.challenge.vote.VoteApplicationTests;
 import com.challenge.vote.domain.entities.Vote;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static java.lang.Boolean.TRUE;
 import static java.time.LocalDateTime.parse;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-public class VoteRepositoryDatabaseTest {
+public class VoteRepositoryDatabaseTest implements VoteApplicationTests {
 
     @Autowired
     private VoteRepositoryDatabase voteRepositoryDatabase;

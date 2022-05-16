@@ -1,5 +1,6 @@
 package com.challenge.vote.application.usecases.vote;
 
+import com.challenge.vote.VoteApplicationTests;
 import com.challenge.vote.application.errors.notfound.NotFoundException;
 import com.challenge.vote.application.usecases.session.CreateSession;
 import com.challenge.vote.application.usecases.session.CreateSessionInput;
@@ -9,15 +10,13 @@ import com.challenge.vote.infra.repositories.memories.VoteRepositoryMemory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
-public class ComputeVoteTest {
+public class ComputeVoteTest implements VoteApplicationTests {
 
     @Autowired
     private SessionRepositoryMemory sessionRepository;
@@ -32,7 +31,7 @@ public class ComputeVoteTest {
     }
 
     @Test
-    void ShouldComputeVotes() throws Exception {
+    void ShouldComputeVotes() {
         final var createSession = new CreateSession(sessionRepository);
         final var openSession = new OpenSession(sessionRepository);
         final var doVote = new DoVote(sessionRepository, voteRepositoryMemory);
@@ -73,7 +72,7 @@ public class ComputeVoteTest {
     }
 
     @Test
-    void ShouldComputeOneVote() throws Exception {
+    void ShouldComputeOneVote() {
         final var createSession = new CreateSession(sessionRepository);
         final var openSession = new OpenSession(sessionRepository);
         final var doVote = new DoVote(sessionRepository, voteRepositoryMemory);

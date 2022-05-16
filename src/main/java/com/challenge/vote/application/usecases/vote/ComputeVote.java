@@ -17,7 +17,7 @@ public class ComputeVote {
         this.sessionRepository = sessionRepository;
     }
 
-    public ComputeVoteOutput execute(Long sessionId) throws Exception {
+    public ComputeVoteOutput execute(Long sessionId) {
         final var session = this.sessionRepository.findBySessionId(sessionId);
         final var votes = this.voteRepository.findBySessionId(sessionId);
         final var voteCalculator = new VoteCalculator(votes);

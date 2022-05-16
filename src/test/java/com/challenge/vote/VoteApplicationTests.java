@@ -1,13 +1,9 @@
 package com.challenge.vote;
 
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-class VoteApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
+@TestPropertySource(locations = "classpath:test.properties")
+public interface VoteApplicationTests {
 }

@@ -1,8 +1,8 @@
 package com.challenge.vote.domain.services;
 
+import com.challenge.vote.VoteApplicationTests;
 import com.challenge.vote.domain.entities.Vote;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
@@ -11,8 +11,7 @@ import static java.lang.Boolean.TRUE;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest
-public class VoteCalculatorTest {
+public class VoteCalculatorTest implements VoteApplicationTests {
 
     @Test
     void shouldCalculateVotes() {

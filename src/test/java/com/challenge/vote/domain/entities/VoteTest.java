@@ -1,15 +1,14 @@
 package com.challenge.vote.domain.entities;
 
+import com.challenge.vote.VoteApplicationTests;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static java.lang.Boolean.TRUE;
 import static java.time.LocalDateTime.parse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
-public class VoteTest {
+public class VoteTest implements VoteApplicationTests {
 
     @Test
     void shouldCreateVote() {

@@ -1,18 +1,17 @@
 package com.challenge.vote.application.usecases.session;
 
+import com.challenge.vote.VoteApplicationTests;
 import com.challenge.vote.application.errors.badrequest.BadRequestException;
 import com.challenge.vote.infra.repositories.memories.SessionRepositoryMemory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
-public class OpenSessionTest {
+public class OpenSessionTest implements VoteApplicationTests {
 
     @Autowired
     private SessionRepositoryMemory sessionRepository;
@@ -23,7 +22,7 @@ public class OpenSessionTest {
     }
 
     @Test
-    void shouldOpenSession() throws Exception {
+    void shouldOpenSession() {
         final var createSession = new CreateSession(this.sessionRepository);
         final var openSession = new OpenSession(this.sessionRepository);
         final var input = CreateSessionInput.builder()
@@ -38,7 +37,7 @@ public class OpenSessionTest {
     }
 
     @Test
-    void shouldNotOpenSession_whenItAlreadyIsOpen() throws Exception {
+    void shouldNotOpenSession_whenItAlreadyIsOpen() {
         final var createSession = new CreateSession(this.sessionRepository);
         final var openSession = new OpenSession(this.sessionRepository);
         final var input = CreateSessionInput.builder()
