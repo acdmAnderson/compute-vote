@@ -17,11 +17,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static com.challenge.vote.util.HttpExceptionConstants.*;
 import static com.challenge.vote.util.VoteControllerTestConstants.*;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -83,6 +85,26 @@ public class VoteControllerTest {
                 .content(mapper.writeValueAsString(input)))
                 .andDo(print())
                 .andExpect(status().isCreated());
+    }
+
+    @Test
+    void shouldReturn404_whenSessionIdNotExists() throws Exception {
+        final var input = DoVoteInput.builder()
+                .sessionId(-1L)
+                .inFavor(TRUE)
+                .cpf("ANY_CPF")
+                .build();
+        mvc.perform(post(VOTE_URL)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding(UTF_8)
+                .content(mapper.writeValueAsString(input)))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath(JSON_PATH_TIMESTAMP).exists())
+                .andExpect(jsonPath(JSON_PATH_PATH).value(VOTE_URL))
+                .andExpect(jsonPath(JSON_PATH_MESSAGE).value("Session not found."))
+                .andExpect(jsonPath(JSON_PATH_CODE).value(NOT_FOUND.value()));
     }
 
     @Test
