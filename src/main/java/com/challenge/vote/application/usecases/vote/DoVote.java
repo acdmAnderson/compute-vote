@@ -1,5 +1,6 @@
 package com.challenge.vote.application.usecases.vote;
 
+import com.challenge.vote.application.errors.badrequest.SessionBadRequestException;
 import com.challenge.vote.domain.entities.Vote;
 import com.challenge.vote.domain.repositories.SessionRepository;
 import com.challenge.vote.domain.repositories.VoteRepository;
@@ -22,7 +23,7 @@ public class DoVote {
 
     public void execute(DoVoteInput input) throws Exception {
         final var session = this.sessionRepository.findBySessionId(input.getSessionId());
-        if (!session.isOpen(now())) throw new Exception("Session is not Open");
+        if (!session.isOpen(now())) throw new SessionBadRequestException("Session is not open.");
         final var vote = this.voteRepository.findBySessionIdAndCpf(input.getSessionId(), input.getCpf());
         if (!isNull(vote)) throw new Exception("Vote already exists");
         this.voteRepository.save(new Vote(input.getId(), input.getSessionId(), input.getCpf(), input.getInFavor(), input.getCreatedAt()));

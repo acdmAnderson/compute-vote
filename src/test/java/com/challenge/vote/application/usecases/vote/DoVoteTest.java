@@ -1,5 +1,6 @@
 package com.challenge.vote.application.usecases.vote;
 
+import com.challenge.vote.application.errors.badrequest.BadRequestException;
 import com.challenge.vote.application.usecases.session.CreateSession;
 import com.challenge.vote.application.usecases.session.CreateSessionInput;
 import com.challenge.vote.application.usecases.session.OpenSession;
@@ -75,6 +76,6 @@ public class DoVoteTest {
                 .inFavor(TRUE)
                 .build();
         createSession.execute(sessionInput);
-        assertThrows(Exception.class, () -> doVote.execute(firstInputVote));
+        assertThrows(BadRequestException.class, () -> doVote.execute(firstInputVote));
     }
 }
