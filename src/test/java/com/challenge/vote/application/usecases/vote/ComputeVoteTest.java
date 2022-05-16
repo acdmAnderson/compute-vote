@@ -1,5 +1,6 @@
 package com.challenge.vote.application.usecases.vote;
 
+import com.challenge.vote.application.errors.notfound.NotFoundException;
 import com.challenge.vote.application.usecases.session.CreateSession;
 import com.challenge.vote.application.usecases.session.CreateSessionInput;
 import com.challenge.vote.application.usecases.session.OpenSession;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class ComputeVoteTest {
@@ -95,5 +97,11 @@ public class ComputeVoteTest {
         assertEquals(output.getInFavorQuantity(), 1L);
         assertEquals(output.getNotInFavorQuantity(), 0L);
         assertEquals(output.getTotal(), 1L);
+    }
+
+    @Test
+    void ShouldThrow_whenSessionIdNotExists() {
+        final var computeVote = new ComputeVote(voteRepositoryMemory, sessionRepository);
+        assertThrows(NotFoundException.class, () -> computeVote.execute(-1L));
     }
 }
