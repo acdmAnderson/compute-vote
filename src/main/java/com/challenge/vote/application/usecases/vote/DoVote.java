@@ -21,11 +21,11 @@ public class DoVote {
         this.voteRepository = voteRepository;
     }
 
-    public void execute(DoVoteInput input) throws Exception {
+    public void execute(DoVoteInput input) {
         final var session = this.sessionRepository.findBySessionId(input.getSessionId());
         if (!session.isOpen(now())) throw new SessionBadRequestException("Session is not open.");
         final var vote = this.voteRepository.findBySessionIdAndCpf(input.getSessionId(), input.getCpf());
-        if (!isNull(vote)) throw new Exception("Vote already exists");
+        if (!isNull(vote)) throw new SessionBadRequestException("Vote already exists.");
         this.voteRepository.save(new Vote(input.getId(), input.getSessionId(), input.getCpf(), input.getInFavor(), input.getCreatedAt()));
     }
 }
