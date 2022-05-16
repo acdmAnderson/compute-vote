@@ -142,4 +142,18 @@ public class SessionControllerTest {
                 .andExpect(jsonPath(JSON_PATH_MESSAGE).value("Session is already open."))
                 .andExpect(jsonPath(JSON_PATH_CODE).value(BAD_REQUEST.value()));
     }
+
+    @Test
+    void shouldReturn404_whenSessionIdNotExistsToOpen() throws Exception {
+        mvc.perform(post(format("%s/open/%d", SESSION_URL, -1))
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding(UTF_8))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath(JSON_PATH_TIMESTAMP).exists())
+                .andExpect(jsonPath(JSON_PATH_PATH).value(format("%s/open/%d", SESSION_URL, -1)))
+                .andExpect(jsonPath(JSON_PATH_MESSAGE).value("Session not found."))
+                .andExpect(jsonPath(JSON_PATH_CODE).value(NOT_FOUND.value()));
+    }
 }
