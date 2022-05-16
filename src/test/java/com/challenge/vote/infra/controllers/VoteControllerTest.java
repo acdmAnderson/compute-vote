@@ -197,4 +197,18 @@ public class VoteControllerTest {
                 .andExpect(jsonPath(JSON_PATH_NOT_IN_FAVOR_QUANTITY).value(1L))
                 .andExpect(jsonPath(JSON_PATH_TOTAL).value(3L));
     }
+
+    @Test
+    void shouldReturn404_whenSessionIdNotExistsToComputeVotes() throws Exception {
+        mvc.perform(get(format("%s/compute/%d", VOTE_URL, -1))
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding(UTF_8))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath(JSON_PATH_TIMESTAMP).exists())
+                .andExpect(jsonPath(JSON_PATH_PATH).value(format("%s/compute/%d", VOTE_URL, -1)))
+                .andExpect(jsonPath(JSON_PATH_MESSAGE).value("Session not found."))
+                .andExpect(jsonPath(JSON_PATH_CODE).value(NOT_FOUND.value()));
+    }
 }
