@@ -1,5 +1,6 @@
 package com.challenge.vote.application.usecases.session;
 
+import com.challenge.vote.application.errors.badrequest.BadRequestException;
 import com.challenge.vote.infra.repositories.memories.SessionRepositoryMemory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,7 @@ public class OpenSessionTest {
                 .build();
         createSession.execute(input);
         openSession.execute(input.getSessionId());
-        assertThrows(Exception.class, () -> openSession.execute(input.getSessionId()));
+        assertThrows(BadRequestException.class, () -> openSession.execute(input.getSessionId()));
     }
 
 }

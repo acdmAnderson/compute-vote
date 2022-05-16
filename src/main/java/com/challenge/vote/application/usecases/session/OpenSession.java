@@ -1,5 +1,6 @@
 package com.challenge.vote.application.usecases.session;
 
+import com.challenge.vote.application.errors.badrequest.SessionBadRequestException;
 import com.challenge.vote.domain.repositories.SessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public class OpenSession {
     public void execute(Long sessionId) throws Exception {
         final var session = this.sessionRepository.findBySessionId(sessionId);
         if (isNull(session)) throw new Exception("Session not found");
-        if (!isNull(session.getStartDate())) throw new Exception("Session is already open");
+        if (!isNull(session.getStartDate())) throw new SessionBadRequestException("Session is already open.");
         session.open(now());
         this.sessionRepository.save(session);
     }
