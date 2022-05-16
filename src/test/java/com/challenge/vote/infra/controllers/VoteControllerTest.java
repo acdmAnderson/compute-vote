@@ -60,7 +60,7 @@ public class VoteControllerTest {
     private MockMvc mvc;
 
     @BeforeEach
-    public void setup() throws Exception {
+    public void setup() {
         this.mvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
         this.sessionRepositoryDatabase.clean();
         this.voteRepositoryDatabase.clean();
@@ -130,6 +130,33 @@ public class VoteControllerTest {
                 .andExpect(jsonPath(JSON_PATH_TIMESTAMP).exists())
                 .andExpect(jsonPath(JSON_PATH_PATH).value(VOTE_URL))
                 .andExpect(jsonPath(JSON_PATH_MESSAGE).value("Session is not open."))
+                .andExpect(jsonPath(JSON_PATH_CODE).value(BAD_REQUEST.value()));
+    }
+
+    @Test
+    void shouldReturn400_whenVoteAlreadyExists() throws Exception {
+        final var sessionInput = CreateSessionInput.builder()
+                .description("ANY_SESSION")
+                .duration(3600L)
+                .build();
+        final var createdSession = this.createSession.execute(sessionInput);
+        final var input = DoVoteInput.builder()
+                .sessionId(createdSession.getSessionId())
+                .inFavor(TRUE)
+                .cpf("ANY_CPF")
+                .build();
+        this.openSession.execute(createdSession.getSessionId());
+        this.doVote.execute(input);
+        mvc.perform(post(VOTE_URL)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding(UTF_8)
+                .content(mapper.writeValueAsString(input)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath(JSON_PATH_TIMESTAMP).exists())
+                .andExpect(jsonPath(JSON_PATH_PATH).value(VOTE_URL))
+                .andExpect(jsonPath(JSON_PATH_MESSAGE).value("Vote already exists."))
                 .andExpect(jsonPath(JSON_PATH_CODE).value(BAD_REQUEST.value()));
     }
 
