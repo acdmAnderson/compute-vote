@@ -32,7 +32,7 @@ public class DoVoteTest {
     }
 
     @Test
-    void shouldDoVote() throws Exception {
+    void shouldDoVote() {
         final var createSession = new CreateSession(sessionRepository);
         final var openSession = new OpenSession(sessionRepository);
         final var doVote = new DoVote(sessionRepository, voteRepositoryMemory);
@@ -62,7 +62,7 @@ public class DoVoteTest {
     }
 
     @Test
-    void shouldThrow_whenSessionIsNotOpen() throws Exception {
+    void shouldThrow_whenSessionIsNotOpen() {
         final var createSession = new CreateSession(sessionRepository);
         final var doVote = new DoVote(sessionRepository, voteRepositoryMemory);
         final var sessionInput = CreateSessionInput.builder()
@@ -81,7 +81,7 @@ public class DoVoteTest {
     }
 
     @Test
-    void shouldThrow_whenUserAlreadyVoted() throws Exception {
+    void shouldThrow_whenUserAlreadyVoted() {
         final var createSession = new CreateSession(sessionRepository);
         final var openSession = new OpenSession(sessionRepository);
         final var doVote = new DoVote(sessionRepository, voteRepositoryMemory);
