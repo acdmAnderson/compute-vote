@@ -23,6 +23,7 @@ import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -105,6 +106,31 @@ public class VoteControllerTest {
                 .andExpect(jsonPath(JSON_PATH_PATH).value(VOTE_URL))
                 .andExpect(jsonPath(JSON_PATH_MESSAGE).value("Session not found."))
                 .andExpect(jsonPath(JSON_PATH_CODE).value(NOT_FOUND.value()));
+    }
+
+    @Test
+    void shouldReturn400_whenSessionIdNotOpen() throws Exception {
+        final var sessionInput = CreateSessionInput.builder()
+                .description("ANY_SESSION")
+                .duration(3600L)
+                .build();
+        final var createdSession = this.createSession.execute(sessionInput);
+        final var input = DoVoteInput.builder()
+                .sessionId(createdSession.getSessionId())
+                .inFavor(TRUE)
+                .cpf("ANY_CPF")
+                .build();
+        mvc.perform(post(VOTE_URL)
+                .contentType(APPLICATION_JSON)
+                .accept(APPLICATION_JSON)
+                .characterEncoding(UTF_8)
+                .content(mapper.writeValueAsString(input)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath(JSON_PATH_TIMESTAMP).exists())
+                .andExpect(jsonPath(JSON_PATH_PATH).value(VOTE_URL))
+                .andExpect(jsonPath(JSON_PATH_MESSAGE).value("Session is not open."))
+                .andExpect(jsonPath(JSON_PATH_CODE).value(BAD_REQUEST.value()));
     }
 
     @Test
