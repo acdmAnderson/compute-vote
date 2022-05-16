@@ -1,5 +1,6 @@
 package com.challenge.vote.infra.repositories.memories;
 
+import com.challenge.vote.application.errors.notfound.SessionNotFoundException;
 import com.challenge.vote.domain.entities.Session;
 import com.challenge.vote.domain.repositories.SessionRepository;
 import org.springframework.stereotype.Repository;
@@ -37,6 +38,6 @@ public class SessionRepositoryMemory implements SessionRepository {
         return this.sessions.stream()
                 .filter(session -> session.getId().equals(id))
                 .findFirst()
-                .orElse(null);
+                .orElseThrow(SessionNotFoundException::new);
     }
 }

@@ -1,5 +1,6 @@
 package com.challenge.vote.domain.entities;
 
+import com.challenge.vote.application.errors.badrequest.SessionBadRequestException;
 import lombok.Data;
 import lombok.Getter;
 
@@ -46,6 +47,7 @@ public class Session {
     }
 
     public void open(LocalDateTime startDate) {
+        if (!isNull(this.startDate)) throw new SessionBadRequestException("Session is already open.");
         this.startDate = startDate;
     }
 

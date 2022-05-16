@@ -40,6 +40,6 @@ public class GetSessionTest {
     @Test
     void shouldNotReturnSession_whenSessionIdNotExists() {
         final var getSession = new GetSession(this.sessionRepository);
-        assertThrows(NotFoundException.class, () -> getSession.execute(1L));
+        assertThrows(NotFoundException.class, () -> getSession.execute(-1L));
     }
 }

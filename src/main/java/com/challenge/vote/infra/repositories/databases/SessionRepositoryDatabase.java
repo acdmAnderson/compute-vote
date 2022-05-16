@@ -1,5 +1,6 @@
 package com.challenge.vote.infra.repositories.databases;
 
+import com.challenge.vote.application.errors.notfound.SessionNotFoundException;
 import com.challenge.vote.domain.entities.Session;
 import com.challenge.vote.domain.repositories.SessionRepository;
 import com.challenge.vote.infra.repositories.adapters.SessionJpaAdapterRepository;
@@ -37,7 +38,6 @@ public class SessionRepositoryDatabase implements SessionRepository {
 
     @Override
     public Session findBySessionId(Long id) {
-        return this.repository.findById(id)
-                .orElse(null);
+        return this.repository.findById(id).orElseThrow(SessionNotFoundException::new);
     }
 }

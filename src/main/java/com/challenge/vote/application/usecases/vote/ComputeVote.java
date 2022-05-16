@@ -6,8 +6,6 @@ import com.challenge.vote.domain.services.VoteCalculator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static java.util.Objects.isNull;
-
 @Component
 public class ComputeVote {
     private final VoteRepository voteRepository;
@@ -21,7 +19,6 @@ public class ComputeVote {
 
     public ComputeVoteOutput execute(Long sessionId) throws Exception {
         final var session = this.sessionRepository.findBySessionId(sessionId);
-        if (isNull(session)) throw new Exception("Session not found");
         final var votes = this.voteRepository.findBySessionId(sessionId);
         final var voteCalculator = new VoteCalculator(votes);
         return ComputeVoteOutput.builder()

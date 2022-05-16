@@ -22,7 +22,6 @@ public class DoVote {
 
     public void execute(DoVoteInput input) throws Exception {
         final var session = this.sessionRepository.findBySessionId(input.getSessionId());
-        if (isNull(session)) throw new Exception("Session not found");
         if (!session.isOpen(now())) throw new Exception("Session is not Open");
         final var vote = this.voteRepository.findBySessionIdAndCpf(input.getSessionId(), input.getCpf());
         if (!isNull(vote)) throw new Exception("Vote already exists");
