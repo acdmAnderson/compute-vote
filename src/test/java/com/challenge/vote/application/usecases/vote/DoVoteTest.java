@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 public class DoVoteTest {
+
     @Autowired
     private SessionRepositoryMemory sessionRepository;
 
@@ -77,5 +78,27 @@ public class DoVoteTest {
                 .build();
         createSession.execute(sessionInput);
         assertThrows(BadRequestException.class, () -> doVote.execute(firstInputVote));
+    }
+
+    @Test
+    void shouldThrow_whenUserAlreadyVoted() throws Exception {
+        final var createSession = new CreateSession(sessionRepository);
+        final var openSession = new OpenSession(sessionRepository);
+        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory);
+        final var sessionInput = CreateSessionInput.builder()
+                .sessionId(1L)
+                .description("ANY_SESSION")
+                .duration(3600L)
+                .build();
+        final var input = DoVoteInput.builder()
+                .cpf("ANY_CPF")
+                .id(1L)
+                .sessionId(sessionInput.getSessionId())
+                .inFavor(TRUE)
+                .build();
+        final var session = createSession.execute(sessionInput);
+        openSession.execute(session.getSessionId());
+        doVote.execute(input);
+        assertThrows(BadRequestException.class, () -> doVote.execute(input));
     }
 }
