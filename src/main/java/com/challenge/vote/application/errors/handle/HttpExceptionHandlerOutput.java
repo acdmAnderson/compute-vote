@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.Builder;
 import lombok.Value;
 
+import static java.lang.System.currentTimeMillis;
+
 @Value
 @JsonDeserialize(builder = HttpExceptionHandlerOutput.JacksonBuilder.class)
 @Builder(builderClassName = "JacksonBuilder")
@@ -14,7 +16,7 @@ public class HttpExceptionHandlerOutput {
 
     String message;
 
-    Long timestamp = System.currentTimeMillis();
+    Long timestamp = currentTimeMillis();
 
     Integer code;
 
