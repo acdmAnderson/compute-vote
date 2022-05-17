@@ -26,12 +26,12 @@ Clone o projeto e utilize o maven para contruí-lo
 
 Com o projeto local há duas possíbilidades de execução
 
-###1:
+### 1:
 
 	$ mvn package && java -jar ./target/vote-1.0.0.jar
 
 
-###2:
+### 2:
 
 	$ docker build -t vote:1.0.0 .
     $ docker run -p 8080:8080 vote:1.0.0
