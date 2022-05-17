@@ -1,6 +1,7 @@
 package com.challenge.vote.infra.controllers;
 
 import com.challenge.vote.application.usecases.session.*;
+import com.challenge.vote.infra.docs.SessionOpenApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +10,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/v1/session")
-public class SessionController {
+public class SessionController implements SessionOpenApi {
 
     @Autowired
     private CreateSession createSession;
@@ -22,19 +23,22 @@ public class SessionController {
 
     @PostMapping
     @ResponseStatus(CREATED)
+    @Override
     public CreateSessionOutput create(@RequestBody final CreateSessionInput input) {
         return this.createSession.execute(input);
     }
 
     @GetMapping("/{sessionId}")
     @ResponseStatus(OK)
-    public GetSessionOutput getSessionById(@PathVariable("sessionId") Long sessionId) throws Exception {
+    @Override
+    public GetSessionOutput getSessionById(@PathVariable("sessionId") Long sessionId) {
         return this.getSession.execute(sessionId);
     }
 
     @PostMapping("/open/{sessionId}")
     @ResponseStatus(OK)
-    public void open(@PathVariable("sessionId") Long sessionId) throws Exception {
+    @Override
+    public void open(@PathVariable("sessionId") Long sessionId) {
         this.openSession.execute(sessionId);
     }
 }
