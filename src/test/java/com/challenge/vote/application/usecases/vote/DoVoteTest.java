@@ -15,6 +15,9 @@ import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class DoVoteTest implements VoteApplicationTests {
 
@@ -99,5 +102,19 @@ public class DoVoteTest implements VoteApplicationTests {
         openSession.execute(session.getSessionId());
         doVote.execute(input);
         assertThrows(BadRequestException.class, () -> doVote.execute(input));
+    }
+
+    @Test
+    void shouldThrow_whenSessionRepositoryThrows() {
+        final var input = DoVoteInput.builder()
+                .cpf("ANY_CPF")
+                .id(1L)
+                .sessionId(1L)
+                .inFavor(TRUE)
+                .build();
+        final var mockRepository = mock(SessionRepositoryMemory.class);
+        final var computeVote = new DoVote(mockRepository, voteRepositoryMemory);
+        when(mockRepository.findBySessionId(any())).thenThrow(new RuntimeException());
+        assertThrows(RuntimeException.class, () -> computeVote.execute(input));
     }
 }
