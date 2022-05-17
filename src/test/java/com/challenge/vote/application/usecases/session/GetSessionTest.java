@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class GetSessionTest implements VoteApplicationTests {
 
@@ -40,5 +43,13 @@ public class GetSessionTest implements VoteApplicationTests {
     void shouldNotReturnSession_whenSessionIdNotExists() {
         final var getSession = new GetSession(this.sessionRepository);
         assertThrows(NotFoundException.class, () -> getSession.execute(-1L));
+    }
+
+    @Test
+    void shouldThrow_whenSessionRepositoryThrows() {
+        final var mockRepository = mock(SessionRepositoryMemory.class);
+        final var getSession = new GetSession(mockRepository);
+        when(mockRepository.findBySessionId(any())).thenThrow(new RuntimeException());
+        assertThrows(RuntimeException.class, () -> getSession.execute(1L));
     }
 }
