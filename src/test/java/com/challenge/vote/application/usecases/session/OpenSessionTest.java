@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static java.time.LocalDateTime.now;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class OpenSessionTest implements VoteApplicationTests {
 
@@ -48,6 +51,14 @@ public class OpenSessionTest implements VoteApplicationTests {
         createSession.execute(input);
         openSession.execute(input.getSessionId());
         assertThrows(BadRequestException.class, () -> openSession.execute(input.getSessionId()));
+    }
+
+    @Test
+    void shouldThrow_whenSessionRepositoryThrows() {
+        final var mockRepository = mock(SessionRepositoryMemory.class);
+        final var openSession = new OpenSession(mockRepository);
+        when(mockRepository.findBySessionId(any())).thenThrow(new RuntimeException());
+        assertThrows(RuntimeException.class, () -> openSession.execute(1L));
     }
 
 }
