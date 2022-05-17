@@ -15,6 +15,9 @@ import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ComputeVoteTest implements VoteApplicationTests {
 
@@ -102,5 +105,13 @@ public class ComputeVoteTest implements VoteApplicationTests {
     void ShouldThrow_whenSessionIdNotExists() {
         final var computeVote = new ComputeVote(voteRepositoryMemory, sessionRepository);
         assertThrows(NotFoundException.class, () -> computeVote.execute(-1L));
+    }
+
+    @Test
+    void shouldThrow_whenSessionRepositoryThrows() {
+        final var mockRepository = mock(SessionRepositoryMemory.class);
+        final var computeVote = new ComputeVote(voteRepositoryMemory, mockRepository);
+        when(mockRepository.findBySessionId(any())).thenThrow(new RuntimeException());
+        assertThrows(RuntimeException.class, () -> computeVote.execute(1L));
     }
 }
