@@ -28,7 +28,7 @@ public class OpenApiConfigTest implements VoteApplicationTests {
 
     @Test
     void shouldVerifyOpenApi() throws Exception {
-        mvc.perform(get("/v2/api-docs")
+        mvc.perform(get("/v2/api-docs?group=V1")
                 .contentType(APPLICATION_JSON)
                 .accept(APPLICATION_JSON)
                 .characterEncoding(UTF_8))
