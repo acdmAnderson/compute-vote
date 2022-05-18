@@ -92,7 +92,7 @@ public class VoteControllerTest implements VoteApplicationTests {
         final var input = DoVoteInput.builder()
                 .sessionId(-1L)
                 .inFavor(TRUE)
-                .cpf("ANY_CPF")
+                .cpf("12559757680")
                 .build();
         mvc.perform(post(VOTE_URL)
                 .contentType(APPLICATION_JSON)

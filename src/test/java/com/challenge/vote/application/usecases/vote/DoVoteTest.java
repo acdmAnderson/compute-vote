@@ -5,6 +5,7 @@ import com.challenge.vote.application.errors.badrequest.BadRequestException;
 import com.challenge.vote.application.usecases.session.CreateSession;
 import com.challenge.vote.application.usecases.session.CreateSessionInput;
 import com.challenge.vote.application.usecases.session.OpenSession;
+import com.challenge.vote.infra.integrations.member.MemberIntegrationMemory;
 import com.challenge.vote.infra.repositories.memories.SessionRepositoryMemory;
 import com.challenge.vote.infra.repositories.memories.VoteRepositoryMemory;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +28,9 @@ public class DoVoteTest implements VoteApplicationTests {
     @Autowired
     private VoteRepositoryMemory voteRepositoryMemory;
 
+    @Autowired
+    private MemberIntegrationMemory memberIntegrationMemory;
+
     @BeforeEach
     void setup() {
         this.sessionRepository.clean();
@@ -37,7 +41,7 @@ public class DoVoteTest implements VoteApplicationTests {
     void shouldDoVote() {
         final var createSession = new CreateSession(sessionRepository);
         final var openSession = new OpenSession(sessionRepository);
-        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory);
+        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory, memberIntegrationMemory);
         final var sessionInput = CreateSessionInput.builder()
                 .sessionId(1L)
                 .description("ANY_SESSION")
@@ -66,7 +70,7 @@ public class DoVoteTest implements VoteApplicationTests {
     @Test
     void shouldThrow_whenSessionIsNotOpen() {
         final var createSession = new CreateSession(sessionRepository);
-        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory);
+        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory, memberIntegrationMemory);
         final var sessionInput = CreateSessionInput.builder()
                 .sessionId(1L)
                 .description("ANY_SESSION")
@@ -86,7 +90,7 @@ public class DoVoteTest implements VoteApplicationTests {
     void shouldThrow_whenUserAlreadyVoted() {
         final var createSession = new CreateSession(sessionRepository);
         final var openSession = new OpenSession(sessionRepository);
-        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory);
+        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory, memberIntegrationMemory);
         final var sessionInput = CreateSessionInput.builder()
                 .sessionId(1L)
                 .description("ANY_SESSION")
@@ -113,8 +117,31 @@ public class DoVoteTest implements VoteApplicationTests {
                 .inFavor(TRUE)
                 .build();
         final var mockRepository = mock(SessionRepositoryMemory.class);
-        final var computeVote = new DoVote(mockRepository, voteRepositoryMemory);
+        final var computeVote = new DoVote(mockRepository, voteRepositoryMemory, memberIntegrationMemory);
         when(mockRepository.findBySessionId(any())).thenThrow(new RuntimeException());
         assertThrows(RuntimeException.class, () -> computeVote.execute(input));
+    }
+
+    @Test
+    void shouldThrow_whenMemberIntegrationThrows() {
+        final var createSession = new CreateSession(sessionRepository);
+        final var openSession = new OpenSession(sessionRepository);
+        final var mockIntegration = mock(MemberIntegrationMemory.class);
+        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory, mockIntegration);
+        final var sessionInput = CreateSessionInput.builder()
+                .sessionId(1L)
+                .description("ANY_SESSION")
+                .duration(3600L)
+                .build();
+        final var input = DoVoteInput.builder()
+                .cpf("ANY_CPF")
+                .id(1L)
+                .sessionId(1L)
+                .inFavor(TRUE)
+                .build();
+        final var session = createSession.execute(sessionInput);
+        openSession.execute(session.getSessionId());
+        when(mockIntegration.verifyMember(any())).thenThrow(new RuntimeException());
+        assertThrows(RuntimeException.class, () -> doVote.execute(input));
     }
 }

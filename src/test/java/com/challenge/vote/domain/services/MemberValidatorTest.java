@@ -5,10 +5,12 @@ import com.challenge.vote.infra.integrations.member.MemberIntegrationFeign;
 import feign.FeignException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@SpringBootTest(properties = {"spring.profiles.active=dev"})
 public class MemberValidatorTest implements VoteApplicationTests {
 
     @Autowired

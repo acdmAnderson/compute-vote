@@ -5,6 +5,7 @@ import com.challenge.vote.application.errors.notfound.NotFoundException;
 import com.challenge.vote.application.usecases.session.CreateSession;
 import com.challenge.vote.application.usecases.session.CreateSessionInput;
 import com.challenge.vote.application.usecases.session.OpenSession;
+import com.challenge.vote.infra.integrations.member.MemberIntegrationMemory;
 import com.challenge.vote.infra.repositories.memories.SessionRepositoryMemory;
 import com.challenge.vote.infra.repositories.memories.VoteRepositoryMemory;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +28,9 @@ public class ComputeVoteTest implements VoteApplicationTests {
     @Autowired
     private VoteRepositoryMemory voteRepositoryMemory;
 
+    @Autowired
+    private MemberIntegrationMemory memberIntegrationMemory;
+
     @BeforeEach
     void setup() {
         this.sessionRepository.clean();
@@ -37,7 +41,7 @@ public class ComputeVoteTest implements VoteApplicationTests {
     void ShouldComputeVotes() {
         final var createSession = new CreateSession(sessionRepository);
         final var openSession = new OpenSession(sessionRepository);
-        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory);
+        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory, memberIntegrationMemory);
         final var computeVote = new ComputeVote(voteRepositoryMemory, sessionRepository);
         final var sessionInput = CreateSessionInput.builder()
                 .sessionId(1L)
@@ -78,7 +82,7 @@ public class ComputeVoteTest implements VoteApplicationTests {
     void ShouldComputeOneVote() {
         final var createSession = new CreateSession(sessionRepository);
         final var openSession = new OpenSession(sessionRepository);
-        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory);
+        final var doVote = new DoVote(sessionRepository, voteRepositoryMemory, memberIntegrationMemory);
         final var computeVote = new ComputeVote(voteRepositoryMemory, sessionRepository);
         final var sessionInput = CreateSessionInput.builder()
                 .sessionId(1L)
